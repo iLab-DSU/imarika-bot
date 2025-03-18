@@ -1,15 +1,11 @@
-import os
-from sqlalchemy import Column, Integer, String, Text, DateTime, func
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import declarative_base, sessionmaker
+# chain/conversation.py
+from sqlalchemy import Column, Integer, String, Text, DateTime, func, select
+from sqlalchemy.orm import declarative_base
 from typing import List, Dict, Any
 
-# Database connection string for Postgres
-DATABASE_URL = os.getenv("DATABASE_URL")
+from db.database import async_session  # DRY: use shared async_session
 
 Base = declarative_base()
-engine = create_async_engine(DATABASE_URL, echo=False, pool_size=10, max_overflow=20, pool_timeout=30)
-async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 class Conversation(Base):
     __tablename__ = "conversations"
@@ -28,6 +24,7 @@ async def save_message(user_id: int, sender: str, message: str) -> None:
 async def get_conversation(user_id: int) -> List[Dict[str, Any]]:
     async with async_session() as session:
         result = await session.execute(
-            Conversation.__table__.select().where(Conversation.user_id == user_id).order_by(Conversation.timestamp)
+            select(Conversation).where(Conversation.user_id == user_id).order_by(Conversation.timestamp)
         )
-        return [dict(row) for row in result.fetchall()]
+        return [dict(row) for row in result.scalars().all()]
+

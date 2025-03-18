@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  postgres:
+    build: ./db            # Uses db/Dockerfile
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ai_bot
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  ws_server:
+    build: .               # Uses the root-level Dockerfile
+    command: uvicorn server.ws_server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    restart: always
+
+  streamlit:
+    build: .
+    command: streamlit run app/main.py --server.enableCORS false
+    ports:
+      - "8501:8501"
+    depends_on:
+      - ws_server
+    restart: always
+
+volumes:
+  postgres_data:

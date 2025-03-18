@@ -1,16 +1,14 @@
 import os
 import requests
 from typing import Any
-
-# Database connection string for Postgres
-OLLAMA_URL = os.getenv("OLLAMA_URL")
+from app.config import OLLAMA_API_URL
 
 def call_ollama_api(prompt: str) -> str:
     """
     Calls the Ollama API to generate a response for the given prompt.
     """
     try:
-        response = requests.post(OLLAMA_URL, json={"prompt": prompt}, timeout=10)
+        response = requests.post(OLLAMA_API_URL, json={"prompt": prompt}, timeout=10)
         response.raise_for_status()
         data = response.json()
         return data.get("response", "No response received.")

@@ -3,11 +3,10 @@ import streamlit as st
 import asyncio
 import websockets
 from app.ui.components import display_message
+from app.config import WS_ENDPOINT
 
-# WebSocket endpoint for conversation server (append user id as needed)
-WS_ENDPOINT = os.getenv("WS_ENDPOINT")
-
-st.title("Advanced AI Bot")
+# Chat header
+st.title("Imarika AI Chat Assistant")
 
 user_input = st.text_input("Enter your message:")
 
