@@ -1,27 +1,39 @@
 version: '3.8'
 services:
   postgres:
-    build: ./db            # Uses db/Dockerfile
+    build: ./db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=ai_bot
+    env_file:
+      - db/.env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
     restart: always
 
+  migrations:
+    build: ./db/migrations
+    working_dir: /app/migrations
+    volumes:
+      - ./db/migrations:/app/migrations
+    env_file:
+      - db/.env
+    depends_on:
+      postgres:
+        condition: service_healthy  # Ensures migrations run only after Postgres is ready
+    command: >
+      sh -c "sleep 5 && alembic -c /app/migrations/alembic.ini upgrade head"
+
+
   ws_server:
     build: .               # Uses the root-level Dockerfile
     command: uvicorn server.ws_server:app --host 0.0.0.0 --port 8000
     ports:
-      - "8000:8000"
+      - "9000:8000"
     depends_on:
       - postgres
     restart: always
