@@ -1,11 +1,13 @@
-import asyncio
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from chain.llm_chain import generate_response
-from chain.conversation import save_message
-from app.utils.logger import log_to_db
 from typing import Dict
 
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+
+from app.utils.logger import log_to_db
+from chain.conversation import save_message
+from chain.llm_chain import generate_response
+
 app = FastAPI()
+
 
 class ConnectionManager:
     def __init__(self):
@@ -25,7 +27,9 @@ class ConnectionManager:
     async def send_personal_message(self, message: str, websocket: WebSocket) -> None:
         await websocket.send_text(message)
 
+
 manager = ConnectionManager()
+
 
 @app.websocket("/ws/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: int):

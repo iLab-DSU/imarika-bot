@@ -9,9 +9,11 @@ load_dotenv()
 WS_ENDPOINT = os.getenv("WS_ENDPOINT")
 DATABASE_URL = os.getenv("DATABASE_URL")
 OLLAMA_API_URL = os.getenv("OLLAMA_API_URL")
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
 
 # AI Models
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
 # Instructions
 CHAT_SYSTEM_INSTRUCTION = """
