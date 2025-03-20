@@ -1,24 +1,41 @@
-import os
-import streamlit as st
 import asyncio
+
+import streamlit as st
 import websockets
-from app.ui.components import display_message
+
 from app.config import WS_ENDPOINT
+from app.ui.components import chat_input, display_message
 
 # Chat header
 st.title("Imarika AI Chat Assistant")
 
-user_input = st.text_input("Enter your message:")
+# Sidebar
+st.sidebar.header("Chat History")
+# Add code to display previous chats as a list
+st.sidebar.button("Start New Chat")
 
-if st.button("Send"):
-    async def send_message():
-        try:
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    display_message(message["role"], message["content"])
+
+# React to user input
+if user_input := chat_input():
+    display_message("user", user_input)
+    try:
+
+        async def send_message():
             async with websockets.connect(WS_ENDPOINT) as websocket:
                 await websocket.send(user_input)
-                response = await websocket.recv()
-                display_message("Bot", response)
-        except Exception as e:
-            display_message("Error", f"Connection error: {e}")
+                return await websocket.recv()
 
-    asyncio.run(send_message())
+        # Run the async function and get the response
+        response = asyncio.run(send_message())
 
+    except Exception as e:
+        response = f"Connection error: {e}"
+
+    display_message("assistant", response)
