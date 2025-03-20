@@ -1,14 +1,18 @@
 import os
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy.orm import declarative_base
 from alembic import context
 import os, sys
+from dotenv import load_dotenv
 
-# Database connection string for Postgres
+# Load environment variables from a .env file (located at project root)
+load_dotenv()
+
+# Now safely retrieve the DATABASE_URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
-from chain.conversation import Base  # Use Base that includes Conversation model
+Base = declarative_base()
 
 config = context.config
 fileConfig(config.config_file_name)

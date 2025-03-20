@@ -2,7 +2,7 @@
 import asyncio
 from sqlalchemy import Column, Integer, String, Text, DateTime, func
 from sqlalchemy.orm import declarative_base
-from db.database import async_session  # DRY: use shared async_session
+from db.database import async_session
 
 Base = declarative_base()
 
@@ -15,9 +15,10 @@ class Log(Base):
 
 async def log_to_db(level: str, message: str) -> None:
     async with async_session() as session:
-        async with session.begin():
+        async with session.begin():  # Ensures commit after adding entry
             log_entry = Log(level=level, message=message)
             session.add(log_entry)
 
 def log(level: str, message: str) -> None:
-    asyncio.run(log_to_db(level, message))
+    """Schedules the log_to_db function without blocking the main thread."""
+    asyncio.create_task(log_to_db(level, message))

@@ -1,13 +1,12 @@
-# db/Dockerfile
 FROM postgres:13
 
-# Set environment variables for Postgres
+# Use environment variables for database credentials
 ENV POSTGRES_USER=user
 ENV POSTGRES_PASSWORD=password
 ENV POSTGRES_DB=ai_bot
 
-# Optionally, copy initialization scripts into the image
+# Copy initialization script if needed
 COPY init.sql /docker-entrypoint-initdb.d/
 
-# Expose port 5432 (default Postgres port)
+# Expose the Postgres port
 EXPOSE 5432
