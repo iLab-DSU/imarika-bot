@@ -1,0 +1,5 @@
+FROM chromadb/chroma:latest
+
+ENV CHROMA_HOST_PORT=5433
+
+EXPOSE 5433

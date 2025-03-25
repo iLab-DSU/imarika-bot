@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 load_dotenv()
 
 # Now safely retrieve the DATABASE_URL
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("AS_DATABASE_URL")
 
 engine = create_async_engine(
     DATABASE_URL, echo=False, pool_size=10, max_overflow=20, pool_timeout=30

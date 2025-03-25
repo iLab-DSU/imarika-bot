@@ -6,8 +6,9 @@ import websockets
 
 from app.config import WS_ENDPOINT
 from app.ui.components import display_message
-from chain.vector_db import (add_documents_from_csv, create_vector_store,
-                             get_similar_documents, ollamma_embeddings)
+from chain.vector_db import (add_documents_from_csv,
+                             query_chroma_doc)
+from db.chroma.chroma import ollamma_embeddings
 
 # Chat header
 st.title("Imarika AI Chat Assistant")
@@ -34,21 +35,14 @@ if st.button("Send"):
 
     asyncio.run(send_message())
 
-elif st.button("Create VectorDB"):
-    create_vector_store(persist=False)
-    add_documents_from_csv(data_path)
+elif st.button("Add Doc"):
+    response = add_documents_from_csv(data_path)
+    display_message("VectorDB", response)
     display_message("VectorDB", "created successfully using data from " + data_path)
+
+    response = query_chroma_doc("beans", 5)
+    display_message("VectorDB", response[2])
 
 elif st.button("Embed Text"):
     embedding = ollamma_embeddings.embed_query(user_input)
     display_message("Embedding", str(embedding))
-
-elif st.button("Query VectorDB"):
-
-    async def query_db():
-        try:
-            embedded_text = ollamma_embeddings.embed_query(user_input)
-            response = await get_similar_documents(embedded_text, 5)
-            display_message("VectorDB", response)
-        except Exception as e:
-            display_message("Error", f"Connection error: {e}")
