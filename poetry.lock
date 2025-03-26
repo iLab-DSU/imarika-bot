@@ -2713,21 +2713,6 @@ files = [
 ]
 
 [[package]]
-name = "pgvector"
-version = "0.4.0"
-description = "pgvector support for Python"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "pgvector-0.4.0-py3-none-any.whl", hash = "sha256:9d3e0c27f676c61d2fd4270ac1bc520d39b947b199200babe4a56d6d00c74a07"},
-    {file = "pgvector-0.4.0.tar.gz", hash = "sha256:f909f8e8081b57fb8a2442c36c3a1e521228d0d4ad66100c28c674806ff62688"},
-]
-
-[package.dependencies]
-numpy = "*"
-
-[[package]]
 name = "pillow"
 version = "11.1.0"
 description = "Python Imaging Library (Fork)"
@@ -4749,4 +4734,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "e76cf58e23c8910c47381444aa959829ef9ecbd469b8b84e2f85471c3b6bcf55"
+content-hash = "487d1a489dcfe23e0c31f112097dec3fb569b68fb5dac28ba7bbc15cabd4720e"

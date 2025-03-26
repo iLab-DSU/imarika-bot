@@ -6,8 +6,7 @@ import websockets
 
 from app.config import WS_ENDPOINT
 from app.ui.components import display_message
-from chain.vector_db import (add_documents_from_csv,
-                             query_chroma_doc)
+from chain.vector_db import add_documents_from_csv, query_chroma_doc
 
 # Chat header
 st.title("Imarika AI Chat Assistant")
@@ -17,9 +16,7 @@ user_input = st.text_input("Enter your message:")
 # Get the parent directory and remove 4 characters from the end
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = parent_dir[:-4]
-st.write("Parent Directory: " + parent_dir)
 data_path = os.path.join(parent_dir, "data")
-st.write("Data Path: " + data_path)
 
 if st.button("Send"):
 

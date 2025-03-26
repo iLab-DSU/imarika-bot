@@ -1,8 +1,9 @@
-# chain/vector_db.py
 from typing import List
-from langchain_community.document_loaders import CSVLoader, DirectoryLoader
+
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import CSVLoader, DirectoryLoader
 from langchain_core.documents import Document
+
 from db.chroma.chroma import chroma_db
 
 # from db.database import async_session  # DRY: use shared async_session
@@ -19,12 +20,6 @@ def query_chroma_doc(query: str, top_k: int = 5) -> List[Document]:
 def add_documents_from_csv(path: str) -> str:
     """
     Load csv documents from data directory into the vector database.
-
-    Document Object Format:
-    document = {
-        page_content: str,
-        metadata: {str: str}
-    }
     """
     resp = ""
 
