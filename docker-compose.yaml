@@ -32,9 +32,9 @@ services:
   chroma:
     build: ./db/chroma
     ports:
-      - "5433:5433"
+      - "5433:8080"
     volumes:
-      - ./db/chroma/data:/app/db/chroma/data
+      - ./db/chroma/data:/chroma/data
     restart: always
 
   ws_server:
