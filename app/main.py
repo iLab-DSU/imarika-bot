@@ -1,41 +1,22 @@
-import asyncio
-import os
-
 import streamlit as st
-import websockets
 
-from app.config import WS_ENDPOINT
-from app.ui.components import display_message
-from chain.vector_db import add_documents_from_csv, query_chroma_doc
+from app.ui.components import (check_inactivity, clear_chat,
+                               display_chat_history, handle_user_input,
+                               init_session)
+
+init_session()
+
+st.set_page_config(page_title="Imarika Chat", page_icon="💬", layout="wide")
 
 # Chat header
 st.title("Imarika AI Chat Assistant")
 
-user_input = st.text_input("Enter your message:")
+# Sidebar
+if st.sidebar.button("Start New Chat"):
+    clear_chat()
 
-# Get the parent directory and remove 4 characters from the end
-parent_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = parent_dir[:-4]
-data_path = os.path.join(parent_dir, "data")
+check_inactivity()
 
-if st.button("Send"):
+display_chat_history()
 
-    async def send_message():
-        try:
-            async with websockets.connect(WS_ENDPOINT) as websocket:
-                await websocket.send(user_input)
-                response = await websocket.recv()
-                display_message("Bot", response)
-        except Exception as e:
-            display_message("Error", f"Connection error: {e}")
-
-    asyncio.run(send_message())
-
-elif st.button("Add Docs"):
-    response = add_documents_from_csv(data_path)
-    display_message("VectorDB", response)
-    display_message("VectorDB", "created successfully using data from " + data_path)
-
-elif st.button("Query Docs"):
-    response = query_chroma_doc(user_input, 5)
-    display_message("VectorDB", response[2])
+handle_user_input()
