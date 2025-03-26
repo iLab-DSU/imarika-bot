@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from chain.conversation import get_conversation
 
 app = FastAPI()
@@ -10,6 +11,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/conversations/{user_id}")
 async def read_conversation(user_id: int):

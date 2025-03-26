@@ -1,10 +1,10 @@
 import os
 from logging.config import fileConfig
+
+from alembic import context
+from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.orm import declarative_base
-from alembic import context
-import os, sys
-from dotenv import load_dotenv
 
 # Load environment variables from a .env file (located at project root)
 load_dotenv()
@@ -18,6 +18,7 @@ config = context.config
 fileConfig(config.config_file_name)
 target_metadata = Base.metadata
 
+
 def run_migrations_offline():
     context.configure(
         url=DATABASE_URL,
@@ -27,6 +28,7 @@ def run_migrations_offline():
     )
     with context.begin_transaction():
         context.run_migrations()
+
 
 def run_migrations_online():
     connectable = engine_from_config(
@@ -39,6 +41,7 @@ def run_migrations_online():
         context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()
