@@ -1,10 +1,12 @@
 import asyncio
+import random
 import time
 
 import streamlit as st
 import websockets
 
 from app.config import WS_ENDPOINT
+from chain.memory import MemoryManager
 
 
 def init_session():
@@ -13,6 +15,12 @@ def init_session():
         st.session_state.messages = []
     if "last_activity" not in st.session_state:
         st.session_state.last_activity = time.time()
+    if "memory" not in st.session_state:
+        st.session_state.memory = MemoryManager()
+    if "user_id" not in st.session_state:
+        st.session_state["user_id"] = random.randint(
+            1, 2147483647
+        )  # get a better replacement for this
 
 
 def display_chat_history():
@@ -26,10 +34,14 @@ def clear_chat():
     # Clears the chat history and resets session state
     st.session_state.messages = []
     st.session_state.last_activity = time.time()
+    if "memory" in st.session_state:
+        st.session_state.memory.clear()
+    else:
+        st.session_state.memory = MemoryManager()
 
 
-def check_inactivity(timeout: int = 60):
-    # Clears chat if inactive for the specified timeout (test with 60 seconds)
+def check_inactivity(timeout: int = 600):
+    # Clears chat if inactive for the specified timeout in seconds
     if time.time() - st.session_state.last_activity > timeout:
         clear_chat()
 
@@ -37,7 +49,9 @@ def check_inactivity(timeout: int = 60):
 async def send_message(user_input: str) -> str:
     # Sends a message via WebSocket and returns the response
     try:
-        async with websockets.connect(WS_ENDPOINT) as websocket:
+        async with websockets.connect(
+            f"{WS_ENDPOINT}/{st.session_state['user_id']}"
+        ) as websocket:
             await websocket.send(user_input)
             return await websocket.recv()
     except Exception as e:
@@ -49,9 +63,16 @@ def handle_user_input():
     if user_input := st.chat_input("Enter your message..."):
         with st.chat_message("user"):
             st.markdown(user_input)
+
         st.session_state.messages.append({"role": "user", "content": user_input})
+        st.session_state.memory.add_message(role="user", content=user_input)
+
         response = asyncio.run(send_message(user_input))
+
         with st.chat_message("assistant"):
             st.markdown(response)
+
         st.session_state.messages.append({"role": "assistant", "content": response})
+        st.session_state.memory.add_message(role="assistant", content=response)
+
         st.session_state.last_activity = time.time()
