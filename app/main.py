@@ -1,8 +1,12 @@
 import streamlit as st
 
-from app.ui.components import (check_inactivity, clear_chat,
-                               display_chat_history, handle_user_input,
-                               init_session)
+from app.ui.components import (
+    check_inactivity,
+    clear_chat,
+    display_chat_history,
+    handle_user_input,
+    init_session,
+)
 
 init_session()
 

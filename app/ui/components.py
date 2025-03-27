@@ -50,7 +50,7 @@ async def send_message(user_input: str) -> str:
     # Sends a message via WebSocket and returns the response
     try:
         async with websockets.connect(
-            f"{WS_ENDPOINT}/{st.session_state['user_id']}"
+            f"{WS_ENDPOINT}{st.session_state['user_id']}"
         ) as websocket:
             await websocket.send(user_input)
             return await websocket.recv()
