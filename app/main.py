@@ -9,7 +9,7 @@ init_session()
 st.set_page_config(page_title="Imarika Chat", page_icon="💬", layout="wide")
 
 # Chat header
-st.title("Imarika AI Chat Assistant")
+st.header("Imarika AI Chat Assistant :farmer:", divider="gray")
 
 # Sidebar
 if st.sidebar.button("Start New Chat"):
