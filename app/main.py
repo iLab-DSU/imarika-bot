@@ -19,4 +19,6 @@ check_inactivity()
 
 display_chat_history()
 
+user_id = st.session_state["user_id"]
+
 handle_user_input()
