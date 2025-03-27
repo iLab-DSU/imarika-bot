@@ -16,7 +16,7 @@ def generate_response(prompt: str, memory: MemoryManager) -> str:
         if not response or response.startswith("API Error"):
             log(
                 "WARNING",
-                "Empty or error response from Ollama API for prompt with memory",
+                f"Empty or error response from Ollama API for prompt: {prompt}",
             )
             return "Sorry, I'm having trouble generating a response at the moment."
         return response
