@@ -7,6 +7,7 @@ from app.ui.components import (
     handle_user_input,
     init_session,
 )
+from chain.vector_db import add_documents_from_csv
 
 init_session()
 
@@ -18,7 +19,9 @@ st.title("Imarika AI Chat Assistant")
 # Sidebar
 if st.sidebar.button("Start New Chat"):
     clear_chat()
-
+if st.sidebar.button("Load Docs"):
+    res = add_documents_from_csv()
+    st.info(res)
 check_inactivity()
 
 display_chat_history()

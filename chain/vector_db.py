@@ -66,11 +66,11 @@ def add_documents_from_csv(path: str = None, reset: bool = False) -> str:
     # Reset collection
     if reset:
         chroma_db.reset_collection()
-        resp += "Reset collection\n"
+        resp += "Reset collection, "
 
     # Load documents from CSV files
     documents = loader.load()
-    resp += "Loaded " + str(len(documents)) + " documents"
+    resp += "Loaded " + str(len(documents)) + " documents, "
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=200, length_function=len
     )
