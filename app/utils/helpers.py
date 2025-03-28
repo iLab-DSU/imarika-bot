@@ -1,16 +1,26 @@
 import requests
 
 from app.config import DEFAULT_MODEL, OLLAMA_API_URL
+from chain.vector_db import query_chroma_doc
 
 
 def call_ollama_api(prompt: str) -> str:
     """
     Calls the Ollama API to generate a response for the given prompt.
     """
+    # search for similar documents in the database
+    context = query_chroma_doc(prompt)
     headers = {"Content-Type": "application/json"}
     payload = {
         "model": DEFAULT_MODEL,  # Specify your desired model here
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": [
+            {
+                "role": "user",
+                "content": "Based on the following context, answer the question below.",
+            },
+            {"role": "user", "content": context},
+            {"role": "user", "content": prompt},
+        ],
         "stream": False,
     }
     try:
