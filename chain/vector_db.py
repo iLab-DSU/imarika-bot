@@ -8,79 +8,103 @@ from langchain_core.documents import Document
 from db.chroma.chroma import chroma_db
 
 
-def query_chroma_doc(query: str, top_k: int = 2) -> str:
-    """
-    Query the database for similar documents.
-    """
-    res = chroma_db.similarity_search(query, top_k)
-    text = ""
-    for doc in res:
-        text += doc.page_content + "\n"
-    return text
+def _similarity_search_with_threshold(
+    query: str, top_k: int, similarity_threshold: float, filter_dict: dict = None
+) -> str:
+    try:
+        results = (
+            chroma_db.similarity_search_with_score(query, k=top_k, filter=filter_dict)
+            if filter_dict
+            else chroma_db.similarity_search_with_score(query, k=top_k)
+        )
+
+        filtered = [
+            doc.page_content for doc, score in results if score >= similarity_threshold
+        ]
+        return (
+            "\n".join(filtered)
+            if filtered
+            else "No results above similarity threshold."
+        )
+    except Exception as e:
+        return f"Error during similarity search: {e}"
 
 
-def query_with_metadata(query: str, fltr: str, top_k: int = 5) -> str:
-    """
-    Query the database for similar documents using metadata.
+def query_chroma_doc(
+    query: str, top_k: int = 2, similarity_threshold: float = 0.5
+) -> str:
+    return _similarity_search_with_threshold(query, top_k, similarity_threshold)
 
-    query = question as string
-    fltr = metadata as string
-    top_k = number of similar documents to return
 
-    """
-    f = {"name": fltr}
-    res = chroma_db.similarity_search(query, top_k, filter=f)
-    text = ""
-    for doc in res:
-        text += doc.page_content + "\n"
-    return text
+def query_with_metadata(
+    query: str, fltr: str, top_k: int = 5, similarity_threshold: float = 0.5
+) -> str:
+    return _similarity_search_with_threshold(
+        query, top_k, similarity_threshold, filter_dict={"name": fltr}
+    )
 
 
 def get_documents() -> List[Document]:
-    """
-    Gets 5 documents from the vector database.
-    """
-    return chroma_db.get(limit=5)
+    try:
+        return chroma_db.get(limit=5)
+    except Exception as e:
+        print(f"Error retrieving documents: {e}")
+        return []
 
 
 def add_documents_from_csv(path: str = None, reset: bool = False) -> str:
-    """
-    Load csv documents from data directory into the vector database.
-    """
-    resp = ""
+    try:
+        response = []
 
-    # set default path to data directory
-    if path is None:
-        parent_dir = os.path.dirname(os.path.abspath(__file__))
-        parent_dir = parent_dir[:-6]
-        path = os.path.join(parent_dir, "data")
+        # Set default path
+        if path is None:
+            base_dir = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), os.pardir)
+            )
+            path = os.path.join(base_dir, "data")
 
-    # csv loader params
-    csv_loader_kwargs = {"encoding": "utf-8"}
+        # If not resetting, check if documents already exist
+        if not reset:
+            existing_docs = chroma_db.get(limit=1)
+            if existing_docs:
+                return "Chroma DB already has data. Skipping document addition."
 
-    # Load CSV files from directory
-    loader = DirectoryLoader(
-        path, glob="**/*.csv", loader_cls=CSVLoader, loader_kwargs=csv_loader_kwargs
-    )
+        # Initialize loader with recursive loading and UTF-8 encoding
+        loader = DirectoryLoader(
+            path=path,
+            glob="**/*.csv",
+            loader_cls=CSVLoader,
+            loader_kwargs={"encoding": "utf-8"},
+            recursive=True,
+            show_progress=True,
+        )
 
-    # Reset collection
-    if reset:
-        chroma_db.reset_collection()
-        resp += "Reset collection, "
+        # Reset database if requested
+        if reset:
+            chroma_db.reset_collection()
+            response.append("Collection reset.")
 
-    # Load documents from CSV files
-    documents = loader.load()
-    resp += "Loaded " + str(len(documents)) + " documents, "
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000, chunk_overlap=200, length_function=len
-    )
-    for doc in documents:
-        # add file name as metadata
-        source_name = doc.metadata["source"].split("/")[-1].replace(".csv", "")
-        doc.metadata["name"] = source_name
+        # Load and tag documents
+        documents = loader.load()
+        for doc in documents:
+            filename = os.path.basename(doc.metadata.get("source", "")).replace(
+                ".csv", ""
+            )
+            doc.metadata["name"] = filename
 
-    # split into chunks and store in database
-    chunks = splitter.split_documents(documents)
-    chroma_db.add_documents(chunks)
+        # Split documents into chunks
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=200,
+            length_function=len,
+        )
+        chunks = splitter.split_documents(documents)
 
-    return resp + "Added documents to the database"
+        # Store in vector database
+        chroma_db.add_documents(chunks)
+        response.append(f"Loaded and added {len(chunks)} document chunks.")
+
+        return " ".join(response)
+
+    except Exception as e:
+        return f"Error adding documents from CSV: {e}"

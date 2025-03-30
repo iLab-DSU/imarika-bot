@@ -67,9 +67,9 @@ def handle_user_input():
         st.session_state.messages.append({"role": "user", "content": user_input})
         st.session_state.memory.add_message(role="user", content=user_input)
 
-        response = asyncio.run(send_message(user_input))
-
         with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = asyncio.run(send_message(user_input))
             st.markdown(response)
 
         st.session_state.messages.append({"role": "assistant", "content": response})
