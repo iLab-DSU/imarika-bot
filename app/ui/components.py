@@ -53,7 +53,8 @@ async def send_message(user_input: str) -> str:
             f"{WS_ENDPOINT}/{st.session_state['user_id']}"
         ) as websocket:
             await websocket.send(user_input)
-            return await websocket.recv()
+            response = await websocket.recv()
+            return response
     except Exception as e:
         return f"Connection error: {e}"
 
@@ -66,6 +67,11 @@ def handle_user_input():
 
         st.session_state.messages.append({"role": "user", "content": user_input})
         st.session_state.memory.add_message(role="user", content=user_input)
+
+        def response_generator():
+            for word in response.split():
+                yield word + " "
+                time.sleep(0.05)
 
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
