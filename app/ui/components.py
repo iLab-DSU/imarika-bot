@@ -23,6 +23,13 @@ def init_session():
         )  # get a better replacement for this
 
 
+def get_user_id():
+    # Returns the user ID from session state
+    if "user_id" not in st.session_state:
+        st.session_state["user_id"] = random.randint(1, 2147483647)
+    return st.session_state["user_id"]
+
+
 def display_chat_history():
     # Displays all messages stored in session state
     for message in st.session_state.messages:
@@ -52,6 +59,16 @@ async def send_message(user_input: str) -> str:
         async with websockets.connect(
             f"{WS_ENDPOINT}/{st.session_state['user_id']}"
         ) as websocket:
+            await websocket.send(user_input)
+            return await websocket.recv()
+    except Exception as e:
+        return f"Connection error: {e}"
+
+
+async def api_send_message(user_input: str, id: int) -> str:
+    # Sends a message via WebSocket and returns the response
+    try:
+        async with websockets.connect(f"{WS_ENDPOINT}/{id}") as websocket:
             await websocket.send(user_input)
             return await websocket.recv()
     except Exception as e:
