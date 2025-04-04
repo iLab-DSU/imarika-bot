@@ -32,10 +32,15 @@ services:
   chroma:
     build: ./db/chroma
     ports:
-      - "5433:8080"
+      - "5433:8000"
     volumes:
       - ./db/chroma/data:/chroma/data
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   ws_server:
     build: .               # Uses the root-level Dockerfile
@@ -43,7 +48,10 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
+      chroma:
+        condition: service_started
     restart: always
 
   streamlit:

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import AsyncIterator, List, Optional
 
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import AIMessage, BaseMessage, HumanMessage, SystemMessage
@@ -10,6 +10,13 @@ from app.utils.helpers import call_ollama_api
 class OllamaLangChainLLM:
     def __call__(self, messages: List[dict], stop: Optional[List[str]] = None) -> str:
         return call_ollama_api(messages)
+
+    async def astream(
+        self, messages: List[dict], stop: Optional[List[str]] = None
+    ) -> AsyncIterator[str]:
+        # stream responses from Ollama API
+        async for chunk in call_ollama_api(messages):
+            yield chunk
 
 
 class MemoryManager:
@@ -81,12 +88,16 @@ class MemoryManager:
         trimmed = self._trim_messages_to_fit_token_limit(messages)
         return self._convert_langchain_messages(trimmed)
 
-    def generate_response(self, user_input: str) -> str:
+    async def generate_response(self, user_input: str) -> AsyncIterator[str]:
         self.add_message("user", user_input)
         messages_to_send = self.get_trimmed_history()
-        response = self.ollama_llm(messages_to_send)
+        response = ""
+
+        async for chunk in self.ollama_llm.astream(messages_to_send):
+            response += chunk
+            yield chunk
+
         self.add_message("assistant", response)
-        return response
 
     def clear(self) -> None:
         self.memory.clear()
