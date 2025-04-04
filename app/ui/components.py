@@ -70,6 +70,7 @@ async def receive_message(websocket) -> Dict[str, Any]:
                 chunk = message.get("content", "")
                 st.session_state.current_response += chunk
                 # Update the displayed message with each chunk
+                await asyncio.sleep(0.07)  # ~30ms per chunk
                 placeholder.markdown(st.session_state.current_response)
 
             elif message_type == "stream_end":
