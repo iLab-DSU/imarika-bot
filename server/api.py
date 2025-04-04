@@ -13,9 +13,9 @@ app.add_middleware(
 )
 
 
-@app.get("/conversations/{user_id}")
-async def read_conversation(user_id: int):
+@app.get("/conversations/{session_id}")
+async def read_conversation(session_id: str):
     """
     Retrieve the conversation history for a given user.
     """
-    return await get_conversation(user_id)
+    return await get_conversation(session_id)

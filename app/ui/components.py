@@ -1,7 +1,7 @@
 import asyncio
 import json
-import random
 import time
+import uuid
 from typing import Any, Dict
 
 import streamlit as st
@@ -19,12 +19,8 @@ def init_session():
         st.session_state.last_activity = time.time()
     if "memory" not in st.session_state:
         st.session_state.memory = MemoryManager()
-    if "user_id" not in st.session_state:
-        st.session_state["user_id"] = random.randint(
-            1, 2147483647
-        )  # get a better replacement for this
-    if "current_response" not in st.session_state:
-        st.session_state.current_response = ""
+    if "session_id" not in st.session_state:
+        st.session_state["session_id"] = str(uuid.uuid4())
 
 
 def display_chat_history():
@@ -38,10 +34,13 @@ def clear_chat():
     # Clears the chat history and resets session state
     st.session_state.messages = []
     st.session_state.last_activity = time.time()
+    # Generate a new session_id when clearing chat
+    st.session_state["session_id"] = str(uuid.uuid4())
     if "memory" in st.session_state:
         st.session_state.memory.clear()
     else:
         st.session_state.memory = MemoryManager()
+    st.session_state.current_response = ""
     st.session_state.current_response = ""
 
 
@@ -93,7 +92,7 @@ async def send_message(user_input: str) -> Dict[str, Any]:
     # Sends a message via WebSocket and returns the response
     try:
         async with websockets.connect(
-            f"{WS_ENDPOINT}/{st.session_state['user_id']}"
+            f"{WS_ENDPOINT}/{st.session_state['session_id']}"
         ) as websocket:
             await websocket.send(user_input)
             return await receive_message(websocket)
@@ -111,7 +110,13 @@ def handle_user_input():
         st.session_state.memory.add_message(role="user", content=user_input)
 
         with st.chat_message("assistant"):
+            # Streaming
             response = asyncio.run(send_message(user_input))
+
+            # None Streaming
+            # with st.spinner(""):
+            #     response = asyncio.run(send_message(user_input))
+            # st.markdown(response)
 
         st.session_state.messages.append(
             {"role": "assistant", "content": response["content"]}
