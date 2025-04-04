@@ -1,6 +1,8 @@
 import asyncio
+import json
 import random
 import time
+from typing import Any, Dict
 
 import streamlit as st
 import websockets
@@ -21,6 +23,8 @@ def init_session():
         st.session_state["user_id"] = random.randint(
             1, 2147483647
         )  # get a better replacement for this
+    if "current_response" not in st.session_state:
+        st.session_state.current_response = ""
 
 
 def display_chat_history():
@@ -38,6 +42,7 @@ def clear_chat():
         st.session_state.memory.clear()
     else:
         st.session_state.memory = MemoryManager()
+    st.session_state.current_response = ""
 
 
 def check_inactivity(timeout: int = 600):
@@ -46,16 +51,54 @@ def check_inactivity(timeout: int = 600):
         clear_chat()
 
 
-async def send_message(user_input: str) -> str:
+async def receive_message(websocket) -> Dict[str, Any]:
+    # process streaming messages from the websocket
+    response = ""
+    placeholder = st.empty()
+
+    while True:
+        try:
+            data = await websocket.recv()
+            message = json.loads(data)
+
+            message_type = message.get("type", "")
+
+            if message_type == "stream_start":
+                st.session_state.current_response = ""
+
+            elif message_type == "stream_chunk":
+                chunk = message.get("content", "")
+                st.session_state.current_response += chunk
+                # Update the displayed message with each chunk
+                await asyncio.sleep(0.07)  # ~30ms per chunk
+                placeholder.markdown(st.session_state.current_response)
+
+            elif message_type == "stream_end":
+                response = message.get(
+                    "full_content", st.session_state.current_response
+                )
+                placeholder.markdown(response)
+                return {"content": response}
+
+            elif message_type == "error":
+                error_msg = message.get("message", "An unknown error occurred")
+                placeholder.markdown(f"⚠️ {error_msg}")
+                return {"content": error_msg}
+
+        except Exception as e:
+            return {"content": f"Connection error: {e}"}
+
+
+async def send_message(user_input: str) -> Dict[str, Any]:
     # Sends a message via WebSocket and returns the response
     try:
         async with websockets.connect(
             f"{WS_ENDPOINT}/{st.session_state['user_id']}"
         ) as websocket:
             await websocket.send(user_input)
-            return await websocket.recv()
+            return await receive_message(websocket)
     except Exception as e:
-        return f"Connection error: {e}"
+        return {"content": f"Connection error: {e}"}
 
 
 def handle_user_input():
@@ -68,11 +111,9 @@ def handle_user_input():
         st.session_state.memory.add_message(role="user", content=user_input)
 
         with st.chat_message("assistant"):
-            with st.spinner("Thinking..."):
-                response = asyncio.run(send_message(user_input))
-            st.markdown(response)
+            response = asyncio.run(send_message(user_input))
 
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        st.session_state.memory.add_message(role="assistant", content=response)
-
+        st.session_state.messages.append(
+            {"role": "assistant", "content": response["content"]}
+        )
         st.session_state.last_activity = time.time()

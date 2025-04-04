@@ -56,18 +56,34 @@ async def websocket_endpoint(websocket: WebSocket, user_id: int):
 
             # Save the user's message to DB and memory
             await save_message(user_id, "user", data)
-            memory.add_message("user", data)
 
-            # Generate bot response with memory context
-            response = generate_response(data, memory)
+            # Signal stream start
+            await websocket.send_json({"type": "stream_start"})
+
+            response = ""
+
+            async for chunk in generate_response(data, memory):
+                response += chunk
+                await websocket.send_json({"type": "stream_chunk", "content": chunk})
+
+            # Signal end of streaming with full response
+            await websocket.send_json({"type": "stream_end", "full_content": response})
 
             # Save bot response to DB and memory
             await save_message(user_id, "bot", response)
-            memory.add_message("assistant", response)
 
-            await log_to_db("DEBUG", f"Sending response to user {user_id}: {response}")
-            await manager.send_personal_message(response, websocket)
+            await log_to_db(
+                "DEBUG", f"Completed streaming response to user {user_id}: {response}"
+            )
     except WebSocketDisconnect:
         await manager.disconnect(user_id)
     except Exception as e:
         await log_to_db("ERROR", f"Error in websocket for user {user_id}: {e}")
+        try:
+            await websocket.send_json(
+                {"type": "error", "message": f"An error occurred: {str(e)}"}
+            )
+        except Exception as send_error:
+            await log_to_db(
+                "ERROR", f"Failed to send error message to user {user_id}: {send_error}"
+            )
