@@ -28,6 +28,14 @@ st.title("Imarika AI Chat Assistant")
 with st.sidebar:
     if st.button("Start New Chat"):
         clear_chat()
+
+    st.markdown("---")
+
+    # WhatsApp URL
+    # whatsapp_url = f"https://wa.me/15556413352" # update phone number in production
+    # if st.button("Chat on WhatsApp"):
+    #     st.markdown(f"[Click here: ]({whatsapp_url})", unsafe_allow_html=True)
+
     # if st.button("Reload Docs"):
     #     res = add_documents_from_csv()
     # st.info(f"Documents reloaded: {res}")
