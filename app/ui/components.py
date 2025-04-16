@@ -49,6 +49,7 @@ def clear_chat():
     # Clears the chat history and resets session state
     st.session_state.messages = []
     st.session_state.last_activity = time.time()
+    st.session_state.climate_set = False
     if "memory" in st.session_state:
         st.session_state.memory.clear()
     else:
