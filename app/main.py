@@ -27,8 +27,7 @@ st.title("Imarika AI Chat Assistant")
 # Sidebar controls
 with st.sidebar:
     if st.button("Start New Chat"):
-        # load climate info
-
+        # update chat system instruction with climate info
         clear_chat()
     # if st.button("Reload Docs"):
     #     res = add_documents_from_csv()
