@@ -15,6 +15,9 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
+# Weather API
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+
 # Instructions
 CHAT_SYSTEM_INSTRUCTION = """
         You are an AI assistant on the Imarika App. Helping farmers make informed decisions regarding crop management
