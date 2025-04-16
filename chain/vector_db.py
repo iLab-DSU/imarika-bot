@@ -37,10 +37,14 @@ def query_chroma_doc(
 
 
 def query_with_metadata(
-    query: str, fltr: str, top_k: int = 5, similarity_threshold: float = 0.5
+    query: str,
+    meta_title: str,
+    fltr: str,
+    top_k: int = 5,
+    similarity_threshold: float = 0.5,
 ) -> str:
     return _similarity_search_with_threshold(
-        query, top_k, similarity_threshold, filter_dict={"name": fltr}
+        query, top_k, similarity_threshold, filter_dict={meta_title: fltr}
     )
 
 
@@ -90,7 +94,10 @@ def add_documents_from_csv(path: str = None, reset: bool = False) -> str:
             filename = os.path.basename(doc.metadata.get("source", "")).replace(
                 ".csv", ""
             )
+            if filename.endswith("_ca"):
+                doc.metadata["type"] = "climate"
             doc.metadata["name"] = filename
+            doc.metadata["type"] = "general"
 
         # Split documents into chunks
         splitter = RecursiveCharacterTextSplitter(
