@@ -1,13 +1,21 @@
 from typing import Dict
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.routing import APIRouter
 
 from app.utils.logger import log_to_db
 from chain.conversation import save_message
 from chain.llm_chain import generate_response
 from chain.memory import MemoryManager
+from server.api import app as api_app
 
 app = FastAPI()
+
+# import api routes
+api_router = APIRouter()
+api_router.include_router(api_app.router)
+# Include the API router in the main app
+app.include_router(api_router)
 
 
 class ConnectionManager:
