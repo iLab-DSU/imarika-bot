@@ -17,6 +17,8 @@ EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
 # Weather API
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+WEATHER_ENDPOINT = os.getenv("WEATHER_ENDPOINT")
+WE_TOKEN = os.getenv("WE_TOKEN")
 
 # Instructions
 CHAT_SYSTEM_INSTRUCTION = """

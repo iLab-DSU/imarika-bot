@@ -1,11 +1,15 @@
 from typing import Union
 
+import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRouter
 
+from app.config import WE_TOKEN, WEATHER_ENDPOINT
 from app.ui.components import api_send_message, get_user_id
 from chain.conversation import get_conversation
+
+client = httpx.AsyncClient()
 
 app = FastAPI()
 router = APIRouter()
@@ -51,3 +55,21 @@ async def chat(user_id: int, message: str) -> Union[str, dict]:
     # Placeholder for chat logic
     response = await api_send_message(message, user_id)
     return response
+
+
+@app.get("/weather")
+async def get_weather():
+    """
+    Get weather information for a given location.
+    """
+    url = WEATHER_ENDPOINT
+    headers = {"x-auth-token": WE_TOKEN}
+    response = await client.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {
+            "error": "Failed to fetch weather data",
+            "status_code": response.status_code,
+            "details": response.text,
+        }
