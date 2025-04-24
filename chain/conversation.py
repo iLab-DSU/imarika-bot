@@ -12,24 +12,24 @@ Base = declarative_base()
 class Conversation(Base):
     __tablename__ = "conversations"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, nullable=False)
+    session_id = Column(String(36), nullable=False)
     message = Column(Text, nullable=False)
     sender = Column(String(50), nullable=False)  # 'user' or 'bot'
     timestamp = Column(DateTime, server_default=func.now())
 
 
-async def save_message(user_id: int, sender: str, message: str) -> None:
+async def save_message(session_id: str, sender: str, message: str) -> None:
     async with async_session() as session:
         async with session.begin():
-            entry = Conversation(user_id=user_id, sender=sender, message=message)
+            entry = Conversation(session_id=session_id, sender=sender, message=message)
             session.add(entry)
 
 
-async def get_conversation(user_id: int) -> List[Dict[str, Any]]:
+async def get_conversation(session_id: str) -> List[Dict[str, Any]]:
     async with async_session() as session:
         result = await session.execute(
             select(Conversation)
-            .where(Conversation.user_id == user_id)
+            .where(Conversation.session_id == session_id)
             .order_by(Conversation.timestamp)
         )
         return [dict(row) for row in result.scalars().all()]

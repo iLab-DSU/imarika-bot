@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Conversations table
 CREATE TABLE IF NOT EXISTS conversations (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
+    session_id VARCHAR(36) NOT NULL,
     message TEXT NOT NULL,
     sender VARCHAR(50) NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
