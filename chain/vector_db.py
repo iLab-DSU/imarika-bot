@@ -33,7 +33,10 @@ def _similarity_search_with_threshold(
 def query_chroma_doc(
     query: str, top_k: int = 2, similarity_threshold: float = 0.5
 ) -> str:
-    return _similarity_search_with_threshold(query, top_k, similarity_threshold)
+    resp = ""
+    resp += query_with_metadata(query, "type", "general", top_k, similarity_threshold)
+    resp += query_with_metadata(query, "type", "climate", top_k, similarity_threshold)
+    return resp
 
 
 def query_with_metadata(

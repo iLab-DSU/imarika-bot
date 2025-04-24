@@ -57,8 +57,8 @@ async def chat(user_id: int, message: str) -> Union[str, dict]:
     return response
 
 
-@app.get("/weather")
-async def get_weather():
+@app.get("/im_weather")
+async def get_imarika_weather():
     """
     Get weather information for a given location.
     """

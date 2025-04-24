@@ -30,3 +30,8 @@ CHAT_SYSTEM_INSTRUCTION = """
         4. Match Language: Reply in the same language the user uses.
         Stay professional, helpful, and user-focused.\n
 """  # noqa: E501
+
+WEATHER_SYSTEM_INSTRUCTION = """
+        Filter out the location from the message. If the location is unclear, return 'Unknown'.
+        Otherwise, return the location name.
+        """  # noqa: E501
