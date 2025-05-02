@@ -32,6 +32,5 @@ CHAT_SYSTEM_INSTRUCTION = """
 """  # noqa: E501
 
 WEATHER_SYSTEM_INSTRUCTION = """
-        Filter out the location from the message. If the location is unclear, return 'Unknown'.
-        Otherwise, return the location name.
+        Filter out the location from the message and respond with the name of the location. If the location is unclear, return 'Unknown'.
         """  # noqa: E501

@@ -1,9 +1,9 @@
 import weatherapi as w
-from utils.helpers import call_ollama_api
-from utils.logger import log
 from weatherapi.rest import ApiException as exc
 
 from app.config import WEATHER_API_KEY, WEATHER_SYSTEM_INSTRUCTION
+from app.utils.helpers import synch_call_ollama_api
+from app.utils.logger import log
 
 conf = w.Configuration()
 conf.api_key["key"] = WEATHER_API_KEY
@@ -25,7 +25,8 @@ def get_weather_info(prompt: str) -> str:
         },
     ]
     # Call the Ollama API to get the location information
-    resp = call_ollama_api(messages)
+    resp = synch_call_ollama_api(messages)
+    log("INFO", f"Response from Weather Filter: {resp}")
     if resp != "Unknown":
         # Call the weather API to get the weather information for the location
         weather_info = load_climate_info(resp)
@@ -73,12 +74,12 @@ def load_climate_info(query: str) -> str:
     Loads climate information based on the query.
     """
     # Calls weather api for weather forecast
-    q = "Marsabit"
+    # q = "Marsabit"
     try:
         log("INFO", f"Loading climate info for query: {query}")
         forecast = w_api.forecast_weather(
-            q=q,
-            days=14,
+            q=query,
+            days=3,
         )
         f = format_forecast(forecast)
         return f
