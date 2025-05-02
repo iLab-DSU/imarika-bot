@@ -54,7 +54,6 @@ def synch_call_ollama_api(messages: list) -> str:
     """
     Calls the Ollama API to generate a response for the given prompt.
     """
-    # search for similar documents in the database
 
     headers = {"Content-Type": "application/json"}
     payload = {

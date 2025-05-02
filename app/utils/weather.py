@@ -15,14 +15,8 @@ def get_weather_info(prompt: str) -> str:
     Extracts weather-related information from the prompt.
     """
     messages = [
-        {
-            "role": "system",
-            "content": WEATHER_SYSTEM_INSTRUCTION,
-        },
-        {
-            "role": "user",
-            "content": prompt,
-        },
+        ("system", WEATHER_SYSTEM_INSTRUCTION),
+        ("user", prompt),
     ]
     # Call the Ollama API to get the location information
     resp = synch_call_ollama_api(messages)
