@@ -15,6 +15,11 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
+# Weather API
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+WEATHER_ENDPOINT = os.getenv("WEATHER_ENDPOINT")
+WE_TOKEN = os.getenv("WE_TOKEN")
+
 # Instructions
 CHAT_SYSTEM_INSTRUCTION = """
         You are an AI assistant on the Imarika App. Helping farmers make informed decisions regarding crop management
@@ -23,5 +28,10 @@ CHAT_SYSTEM_INSTRUCTION = """
         2. Be Concise: Deliver clear and focused responses, aligning with the platform's purpose.
         3. Sound Human: Use natural, friendly language — not robotic or too formal.
         4. Match Language: Reply in the same language the user uses.
-        Stay professional, helpful, and user-focused.
+        Stay professional, helpful, and user-focused.\n
 """  # noqa: E501
+
+WEATHER_SYSTEM_INSTRUCTION = """
+        Identify the location in the message below and return the name of the location. If the location is unclear, return 'Unknown'.
+        Message:
+        """  # noqa: E501

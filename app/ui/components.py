@@ -1,5 +1,6 @@
 import asyncio
 import json
+import random
 import time
 import uuid
 from typing import Any, Dict
@@ -23,6 +24,13 @@ def init_session():
         st.session_state["session_id"] = str(uuid.uuid4())
 
 
+def get_user_id():
+    # Returns the user ID from session state
+    if "user_id" not in st.session_state:
+        st.session_state["user_id"] = random.randint(1, 2147483647)
+    return st.session_state["user_id"]
+
+
 def display_chat_history():
     # Displays all messages stored in session state
     for message in st.session_state.messages:
@@ -34,6 +42,7 @@ def clear_chat():
     # Clears the chat history and resets session state
     st.session_state.messages = []
     st.session_state.last_activity = time.time()
+    st.session_state.climate_set = False
     # Generate a new session_id when clearing chat
     st.session_state["session_id"] = str(uuid.uuid4())
     if "memory" in st.session_state:
@@ -94,6 +103,16 @@ async def send_message(user_input: str) -> Dict[str, Any]:
         async with websockets.connect(
             f"{WS_ENDPOINT}/{st.session_state['session_id']}"
         ) as websocket:
+            await websocket.send(user_input)
+            return await receive_message(websocket)
+    except Exception as e:
+        return {"content": f"Connection error: {e}"}
+
+
+async def api_send_message(user_input: str, id: int) -> str:
+    # Sends a message via WebSocket and returns the response
+    try:
+        async with websockets.connect(f"{WS_ENDPOINT}/{id}") as websocket:
             await websocket.send(user_input)
             return await receive_message(websocket)
     except Exception as e:

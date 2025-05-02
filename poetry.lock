@@ -4430,6 +4430,28 @@ files = [
 anyio = ">=3.0.0"
 
 [[package]]
+name = "weatherapipython"
+version = "1.0.0"
+description = "Weather API"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = []
+develop = false
+
+[package.dependencies]
+certifi = ">=2017.4.17"
+python-dateutil = ">=2.1"
+six = ">=1.10"
+urllib3 = ">=1.23"
+
+[package.source]
+type = "git"
+url = "https://github.com/weatherapicom/python"
+reference = "main"
+resolved_reference = "05344f2d04cbf0b9513cb69b71f56a66a348e1be"
+
+[[package]]
 name = "websocket-client"
 version = "1.8.0"
 description = "WebSocket client for Python with low level API options"
@@ -4734,4 +4756,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "487d1a489dcfe23e0c31f112097dec3fb569b68fb5dac28ba7bbc15cabd4720e"
+content-hash = "729d05638948bf5e4844f3a6763861207d1dff31d5b6195915951279b3c20b4a"
