@@ -32,5 +32,6 @@ CHAT_SYSTEM_INSTRUCTION = """
 """  # noqa: E501
 
 WEATHER_SYSTEM_INSTRUCTION = """
-        Identify the location in the given prompt message and return the name of the location. If the location is unclear, return 'Unknown'.
+        Identify the location in the message below and return the name of the location. If the location is unclear, return 'Unknown'.
+        Message:
         """  # noqa: E501

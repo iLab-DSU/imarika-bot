@@ -14,9 +14,10 @@ def get_weather_info(prompt: str) -> str:
     """
     Extracts weather-related information from the prompt.
     """
+    log("INFO", f"Extracting weather info from prompt: {prompt}")
     messages = [
-        ("system", WEATHER_SYSTEM_INSTRUCTION),
-        ("user", prompt),
+        {"role": "user", "content": WEATHER_SYSTEM_INSTRUCTION},
+        {"role": "user", "content": prompt},
     ]
     # Call the Ollama API to get the location information
     resp = synch_call_ollama_api(messages)
@@ -76,6 +77,7 @@ def load_climate_info(query: str) -> str:
             days=3,
         )
         f = format_forecast(forecast)
+        log("INFO", f"Formatted forecast: {f}")
         return f
     except exc as e:
         log("ERROR", f"Exception in load_climate_info: {e}\nQuery: {query}")
