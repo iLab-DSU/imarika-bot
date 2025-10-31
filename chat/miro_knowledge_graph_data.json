@@ -1,0 +1,546 @@
+{
+  "nodes": {
+    "crop": [
+      "Beans",
+      "Cassava",
+      "Finger Millet",
+      "Maize",
+      "Sorghum",
+      "Sweet Potatoes"
+    ],
+    "nutrient": [
+      "Manure",
+      "Nitrogen",
+      "Potassium",
+      "Phosphorus",
+      "Compost",
+      "Npk",
+      "Dap"
+    ],
+    "pest": [
+      "Borer",
+      "Weevil"
+    ],
+    "activity": [
+      "Land Preparation",
+      "Nutrient Management",
+      "Sowing",
+      "Harvesting",
+      "Post Harvest Handling"
+    ],
+    "stage": [
+      "Planting",
+      "Harvest"
+    ]
+  },
+  "relationships": [
+    {
+      "source": "Beans",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Beans",
+      "target": "Planting",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Beans",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Beans",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Beans",
+      "target": "Nitrogen",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Beans",
+      "target": "Potassium",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Beans",
+      "target": "Phosphorus",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Beans",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Beans",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Beans",
+      "target": "Harvest",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Beans",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Cassava",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Cassava",
+      "target": "Planting",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Cassava",
+      "target": "Nitrogen",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Cassava",
+      "target": "Phosphorus",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Potassium",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Compost",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Npk",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Cassava",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Cassava",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Cassava",
+      "target": "Harvest",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Cassava",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Planting",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Npk",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Nitrogen",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Phosphorus",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Harvest",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Finger Millet",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Borer",
+      "target": "Finger Millet",
+      "relation": "attacks",
+      "source_type": "pest",
+      "target_type": "crop"
+    },
+    {
+      "source": "Borer",
+      "target": "Maize",
+      "relation": "attacks",
+      "source_type": "pest",
+      "target_type": "crop"
+    },
+    {
+      "source": "Maize",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Maize",
+      "target": "Planting",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Maize",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Compost",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Maize",
+      "target": "Nitrogen",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Potassium",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Dap",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Npk",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Maize",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Maize",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Maize",
+      "target": "Harvest",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Maize",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Weevil",
+      "target": "Maize",
+      "relation": "attacks",
+      "source_type": "pest",
+      "target_type": "crop"
+    },
+    {
+      "source": "Weevil",
+      "target": "Sweet Potatoes",
+      "relation": "attacks",
+      "source_type": "pest",
+      "target_type": "crop"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Compost",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Phosphorus",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sorghum",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Land Preparation",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Planting",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Nutrient Management",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Manure",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Npk",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Nitrogen",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Phosphorus",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Potassium",
+      "relation": "needs",
+      "source_type": "crop",
+      "target_type": "nutrient"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Sowing",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Harvesting",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Harvest",
+      "relation": "has_stage",
+      "source_type": "crop",
+      "target_type": "stage"
+    },
+    {
+      "source": "Sweet Potatoes",
+      "target": "Post Harvest Handling",
+      "relation": "requires",
+      "source_type": "crop",
+      "target_type": "activity"
+    }
+  ],
+  "statistics": {
+    "total_nodes": 22,
+    "total_edges": 72
+  }
+}

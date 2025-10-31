@@ -1,0 +1,86 @@
+IMARIKA AGRICULTURAL KNOWLEDGE GRAPH - MIRO FLOW DIAGRAM
+============================================================
+
+NODE CATEGORIES:
+
+CROP (6 nodes):
+  • Beans
+  • Cassava
+  • Finger Millet
+  • Maize
+  • Sorghum
+  • Sweet Potatoes
+
+NUTRIENT (7 nodes):
+  • Manure
+  • Nitrogen
+  • Potassium
+  • Phosphorus
+  • Compost
+  • Npk
+  • Dap
+
+PEST (2 nodes):
+  • Borer
+  • Weevil
+
+ACTIVITY (5 nodes):
+  • Land Preparation
+  • Nutrient Management
+  • Sowing
+  • Harvesting
+  • Post Harvest Handling
+
+STAGE (2 nodes):
+  • Planting
+  • Harvest
+
+RELATIONSHIP PATTERNS:
+  • crop → requires → activity (30 connections)
+  • crop → needs → nutrient (28 connections)
+  • crop → has_stage → stage (10 connections)
+  • pest → attacks → crop (4 connections)
+
+SAMPLE RELATIONSHIPS BY CROP:
+
+Beans:
+  • Beans requires Land Preparation
+  • Beans has_stage Planting
+  • Beans needs Manure
+  • Beans requires Nutrient Management
+  • Beans needs Nitrogen
+
+Cassava:
+  • Cassava requires Land Preparation
+  • Cassava has_stage Planting
+  • Cassava needs Nitrogen
+  • Cassava needs Manure
+  • Cassava requires Nutrient Management
+
+Finger Millet:
+  • Finger Millet requires Land Preparation
+  • Finger Millet has_stage Planting
+  • Finger Millet requires Nutrient Management
+  • Finger Millet needs Manure
+  • Finger Millet needs Npk
+
+Maize:
+  • Borer attacks Maize
+  • Maize requires Land Preparation
+  • Maize has_stage Planting
+  • Maize needs Manure
+  • Maize needs Compost
+
+Sorghum:
+  • Sorghum requires Land Preparation
+  • Sorghum needs Manure
+  • Sorghum needs Compost
+  • Sorghum requires Nutrient Management
+  • Sorghum needs Phosphorus
+
+Sweet Potatoes:
+  • Weevil attacks Sweet Potatoes
+  • Sweet Potatoes requires Land Preparation
+  • Sweet Potatoes has_stage Planting
+  • Sweet Potatoes requires Nutrient Management
+  • Sweet Potatoes needs Manure

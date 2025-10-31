@@ -1,0 +1,16 @@
+langchain
+langchain-community
+langchain-chroma
+langgraph
+unstructured
+pypdf
+streamlit
+jq
+langchain-ollama
+requests
+python-dotenv
+pandas
+chromadb
+networkx
+matplotlib
+networkx
