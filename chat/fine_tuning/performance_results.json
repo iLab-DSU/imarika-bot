@@ -1,0 +1,74 @@
+{
+  "base_model": [
+    {
+      "response": "As an agricultural assistant, I can tell you that maize (corn) needs a balanced diet of:\n\n1. Nitrogen (N): essential for leaf growth and development\n2. Phosphorus (P): crucial for root development, flower formation, and seed production\n3. Potassium (K): helps with overall plant health, resistance to disease, and water balance\n\nThese three macronutrients are the foundation of a maize plant's nutrient needs!",
+      "time": 11.934334516525269,
+      "success": true,
+      "keyword_score": 0.6
+    },
+    {
+      "response": "To manage pests in beans, follow these steps:\n\n1. **Monitor fields regularly** to catch infestations early.\n2. **Use crop rotation** to break pest cycles and reduce populations.\n3. **Select resistant varieties**, if available.\n4. **Apply insecticides judiciously**, targeting specific pests and using Integrated Pest Management (IPM) principles.\n5. **Encourage beneficial insects**, like ladybugs and lacewings, which prey on bean pests.\n6. **Use cultural controls**, such as proper watering, fertilization, and pruning, to reduce pest attraction.\n\nCommon bean pests include aphids, spider mites, whiteflies, and bean leaf beetles.",
+      "time": 17.767995595932007,
+      "success": true,
+      "keyword_score": 0.2
+    },
+    {
+      "response": "Cassava prefers a tropical climate with:\n\n* High temperatures: 24\u00b0C to 30\u00b0C (75\u00b0F to 86\u00b0F)\n* Moderate rainfall: 1,500 mm to 2,000 mm (60 in to 79 in) per year\n* Well-distributed moisture: Cassava is sensitive to drought and flooding.\n\nIdeally, cassava grows best in areas with a short dry season of about 2-3 months.",
+      "time": 12.472666501998901,
+      "success": true,
+      "keyword_score": 0.6
+    },
+    {
+      "response": "For most regions, the ideal time to plant sorghum is in late spring to early summer, when the soil has warmed up and the risk of frost has passed. This typically falls around late May or early June in temperate climates. However, specific planting dates may vary depending on your location, climate, and soil type. It's always a good idea to check with local agricultural experts or your seed supplier for more specific guidance!",
+      "time": 11.61954927444458,
+      "success": true,
+      "keyword_score": 0.2
+    },
+    {
+      "response": "To harvest sweet potatoes:\n\n1. Check for maturity: Sweet potatoes are ready when the tops of the plants turn yellow and start to dry up.\n2. Dig carefully: Use a fork or shovel to gently loosen the soil around the base of the plant, then lift the tubers out.\n3. Handle with care: Sweet potatoes are fragile, so handle them carefully to avoid bruising or breaking.\n4. Cure: Store harvested sweet potatoes in a warm, dry place (around 80\u00b0F/27\u00b0C) for 7-10 days to heal any wounds and improve storage life.\n\nThat's it!",
+      "time": 15.766905784606934,
+      "success": true,
+      "keyword_score": 0.8
+    }
+  ],
+  "enhanced_model": [
+    {
+      "response": "\ud83c\udf3e Maize needs Nitrogen (120-150kg/ha), Phosphorus (60-80kg/ha), Potassium (40-60kg/ha), and organic manure for optimal growth.",
+      "time": 18.01597285270691,
+      "success": true,
+      "keyword_score": 0.8
+    },
+    {
+      "response": "\ud83c\udf3e Manage bean pests like weevils, aphids, and bean flies using crop rotation, neem oil, and resistant varieties.",
+      "time": 18.015904664993286,
+      "success": true,
+      "keyword_score": 0.4
+    },
+    {
+      "response": "\ud83c\udf3e Cassava thrives in tropical conditions with 1000-1500mm annual rainfall and temperatures 25-35\u00b0C.",
+      "time": 18.014816522598267,
+      "success": true,
+      "keyword_score": 0.4
+    },
+    {
+      "response": "\ud83c\udf3e I specialize in beans, cassava, finger millet, maize, sorghum, and sweet potatoes. Ask about nutrients, pests, weather, planting, or harvesting for these crops.",
+      "time": 18.01573896408081,
+      "success": true,
+      "keyword_score": 0.2
+    },
+    {
+      "response": "\ud83c\udf3e I specialize in beans, cassava, finger millet, maize, sorghum, and sweet potatoes. Ask about nutrients, pests, weather, planting, or harvesting for these crops.",
+      "time": 18.021671772003174,
+      "success": true,
+      "keyword_score": 0.2
+    }
+  ],
+  "summary": {
+    "base_avg_score": 0.48,
+    "enhanced_avg_score": 0.4,
+    "score_improvement": -0.07999999999999996,
+    "base_avg_time": 13.912290334701538,
+    "enhanced_avg_time": 18.01682095527649,
+    "time_difference": 4.104530620574952
+  }
+}

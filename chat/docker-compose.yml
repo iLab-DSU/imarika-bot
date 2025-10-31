@@ -1,0 +1,22 @@
+version: '3.8' # Specify the Docker Compose file format version
+
+services:
+  rag-streamlit:
+    build: . # Build the image from the Dockerfile in the current directory
+    ports:
+      - "8501:8501" # Map host port 8501 to container port 8501
+    environment:
+      # This explicitly tells the Streamlit app where Ollama is,
+      # which is the same as the -e OLLAMA_BASE_URL in docker run
+      - OLLAMA_BASE_URL=http://127.0.0.1:11434
+      # Pass the OpenWeather API Key securely from the host environment
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY} # This assumes you set it in ~/.bashrc or similar
+    volumes:
+      # Mount the local data and chroma_db directories for persistence
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
+    network_mode: host # This is crucial to allow the container to access host.docker.internal
+    restart: unless-stopped # Keep the container running unless explicitly stopped
+    container_name: offline-rag-streamlit # Assign a friendly name to the container
+
+# Signature: Hineni
